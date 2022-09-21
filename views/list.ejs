@@ -1,0 +1,69 @@
+<%- include("header") -%>
+
+  <div class="box" id="heading">
+    <h1> <%= listTitle %> </h1>
+  </div>
+
+  <div class="box">
+
+
+    <% newListItems.forEach(function(element){ %>
+<!-- for our checkbox to make a post request we firstly need to create a post request from our checkbox
+and for this purpose we need to first enclose it in the form -->
+<!-- now it will send a post request to the delete route -->
+<form action="/delete" method="post">
+      <div class="item">
+        <!-- also for form to send some value it should have a way to send the value and a value that it should send -->
+        <!-- we want that the form should send the value when the checkbox is checked and also the item beside which the
+        checkbox was checked -->
+        <!-- to send the value of checkbox which was checked we can add onchange="this.form.submit()" -->
+        <!-- to send the value of item that was checked we need to send the _id of that document using ejs -->
+        <!-- the way to do it is that as we can see we have a forEach loop that is iterating to every element in the
+        array newListItems. Every element in newListItems is a document in the database that will have unique _id
+        and we can send that _id as the value when checkbox is checked to identify that which element in the Todo list
+        was checked and we can catch that value in /delete route in app.js and use that _id to delete the element
+        we will catch that _id using ejs  -->
+        <input type="checkbox" name="checkbox" value="<%= element._id %>" onchange="this.form.submit()">
+        <!-- the complete array of documents is passed from app.js but we only want to display the name field thus
+        we will have to update newListItems[i] to newListItems[i].name -->
+        <p><%=  element.name  %></p> 
+
+        <!-- here we will encounter another problem as now we have custom lists but whenever we try to delete from
+        any of the custom lists the page redirects us to our default list page!! 
+        it is because we have not yet specified what list we want to delete the item from just like we have
+        to specify that in which list we want to add the items similarly we need to specify that from which 
+        list we want to delete the item  -->
+        <!-- and for this we need to send the list title from this section just like we did in the post section 
+        where we were adding elements to different list by help of ejs tag (line 65)  -->
+        <!-- but to we cannot achieve it directly as this is checkbox and it does not have submit button from which
+        we can send a value and the checkbox input tag is already sending a value that is equal to _id of element
+        which was checked from list to delete it and is needed, so how can we send another value from this section
+        without adding submit button??
+        for this we can use input hidden. It is an input tag that is hidden to user but can be used to transfer 
+        /post the data to our app.js file -->
+        <input type="hidden" name="listName" value="<%= listTitle %>">
+      </div>
+    </form>    
+      <% });%>
+
+
+      <form class="item" action="/" method="post">
+        <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
+        <!-- here we will encounter a new problem which is no matter what custom list we add our item to
+        the item gets added to the list at the root route and it is because we have not handled it yet 
+        our form here is making a post req to / and there we are making a new item and then saving it to our
+        default list and hence we are facing this problem 
+        <button type="submit" name="list">+</button> -->
+
+        <!-- to solve this problem our form should not only send the item to be added to the list but also it
+        should send the name of the list in which it was added to so that we can access the name of that list 
+        in our app.js find that list in lists collection if the item was added to any custom list and then 
+        push that item to the items array in List model or if it is added to our default list then 
+        simply add it to our items collection
+        to get the name of list we will send the list title as the value along with the name from submit button -->
+
+        <button type="submit" name="list" value="<%=listTitle %>">+</button> 
+      </form>
+  </div>
+
+<%- include("footer") -%>
