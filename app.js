@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors=require("cors");
+require('dotenv').config();
 
 const _=require("lodash");
 
@@ -12,8 +13,8 @@ app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
-
-mongoose.connect("mongodb+srv://naveragec0der:Mongodbpassword@cluster0.xrwpstn.mongodb.net/todolistDB");
+const api_key=process.env.API_KEY
+mongoose.connect("mongodb+srv://"+api_key);
 const itemsSchema = new mongoose.Schema({
   name: String,
 });
