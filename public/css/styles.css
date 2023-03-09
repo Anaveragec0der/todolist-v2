@@ -1,10 +1,12 @@
 html {
   background-color: #E4E9FD;
   background-image: -webkit-linear-gradient(65deg, #A683E3 50%, #E4E9FD 50%);
-  min-height: 1000px;
+  height: -webkit-fill-available;
   font-family: "Segoe UI", Arial, sans-serif;
 }
-
+body{
+  height: -webkit-fill-available;
+}
 h1 {
   color: #fff;
   padding: 10px;
