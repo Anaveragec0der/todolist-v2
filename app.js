@@ -73,7 +73,7 @@ app.get("/", function (req, res) {
       //RENDERING THE PAGE WITH DEFAULT ELEMENTS INSERTED IN OUR TO DO LIST
       return res.redirect("/");
     } else {
-      return res.render("list", { listTitle: "TO-DO LIST", newListItems: result }); // HERE WE ARE PASSING THE RESULTS OF .FIND
+      return res.render("list", { listTitle: "Today", newListItems: result }); // HERE WE ARE PASSING THE RESULTS OF .FIND
       //ON THE Item MODEL WHICH IS AN ARRAY OF DOCUMENTS THEN PASSING THEM OVER TO newListItems IN LIST.EJS
     }
   });
